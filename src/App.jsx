@@ -5,6 +5,7 @@ import { ProductRow } from "./components/products/ProductRow";
 import { ProductCategoryRow } from "./components/products/ProductCategoryRow";
 import { useToggle } from "./hooks/useToggle";
 import { useIncrement } from "./hooks/useIncrement";
+import { useFetch } from "./hooks/useFetch";
 
 const PRODUCTS = [
   {category: "Fruits", price: "$1", stocked: true, name: "Apple"},
@@ -24,6 +25,7 @@ function App() {
   const [count, setCount] = useState(duration);
   const [checked, toggleCheck] = useToggle();
   const [value, increment, decrement] = useIncrement(0);
+  const [data, loading, error] = useFetch("https://jsonplaceholder.typicode.com/posts?_limit=5&delay=2000");
 
 
   const handleCountChange = (newCount) => {
@@ -84,6 +86,20 @@ function App() {
     </div>
     <button onClick={increment}>Incrémenter</button>
     <button onClick={decrement}>Décrémenter</button>
+
+    <div>
+      {loading && <p>Loading...</p>}
+      {error && <p>Error: {error.message}</p>}
+      {data && <div>
+        <h2>Fetched Data</h2>
+        <ul>
+          {data.map(post => (
+            <li key={post.id}>{post.title}</li>
+          ))}
+        </ul>
+      </div>}
+    </div>
+
   </div>;
 }
 
