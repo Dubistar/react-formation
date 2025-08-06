@@ -1,6 +1,8 @@
+
 export function Checkbox({ label, checked, onChange, id }) {
   return (
     <div className="form-check">
+
       <input
         id={id}
         type="checkbox"
@@ -10,5 +12,6 @@ export function Checkbox({ label, checked, onChange, id }) {
       />
       <label htmlFor={id} className="form-check-label">{label}</label>
     </div>
+
   );
 }

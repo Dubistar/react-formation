@@ -1,11 +1,13 @@
 
-import {use, useState, useEffect} from "react";
+import {use, useState, useEffect, useReducer, useContext} from "react";
 import { Checkbox } from "./components/forms/Checkbox";
 import { ProductRow } from "./components/products/ProductRow";
 import { ProductCategoryRow } from "./components/products/ProductCategoryRow";
 import { useToggle } from "./hooks/useToggle";
 import { useIncrement } from "./hooks/useIncrement";
 import { useFetch } from "./hooks/useFetch";
+import { useTodos } from "./hooks/useTodo";
+import { ThemeContext } from "./hooks/useTheme";
 
 const PRODUCTS = [
   {category: "Fruits", price: "$1", stocked: true, name: "Apple"},
@@ -25,7 +27,10 @@ function App() {
   const [count, setCount] = useState(duration);
   const [checked, toggleCheck] = useToggle();
   const [value, increment, decrement] = useIncrement(0);
-  const [data, loading, error] = useFetch("https://jsonplaceholder.typicode.com/posts?_limit=5&delay=2000");
+  const [data, loading, error] = useFetch("https://jsonplaceholder.typicode.com/posts?_limit=20&delay=100000");
+  const {visibleTodos, toggleTodo, removeTodo, clearCompleted} = useTodos();
+
+ 
 
 
   const handleCountChange = (newCount) => {
@@ -60,14 +65,15 @@ function App() {
   });
 
   return <div className="container my-5">
-    <SearchBar
+      <SearchBar
       searchText={searchText}
       setSearchText={setSearchText}
       onlyStocked={onlyStocked}
       setOnlyStocked={setOnlyStocked}
     />
-    <ProductTable products={filteredProducts} />
+      <ProductTable products={filteredProducts} />
     <Title />
+
     {/* <div style={{ height: "300vh" }}></div> */}
     <input
       value={duration}
@@ -99,8 +105,24 @@ function App() {
         </ul>
       </div>}
     </div>
-
+    <div>
+      <h2>Reducer Example</h2>
+      
+      <ul>
+        {visibleTodos.map(todo => (
+          <li 
+          key={todo.name}
+          >
+          <input type="checkbox" checked={todo.checked} onChange={() => toggleTodo(todo)} />
+          {todo.name}
+          <button onClick={() => removeTodo(todo)}>supprimer</button>
+          </li>
+        ))}
+      </ul>
+      <button onClick={clearCompleted}>Clear Completed</button>
+    </div>
   </div>;
+
 }
 
 function SearchBar({ searchText, setSearchText, onlyStocked, setOnlyStocked }) {
@@ -124,6 +146,8 @@ function SearchBar({ searchText, setSearchText, onlyStocked, setOnlyStocked }) {
 function ProductTable({products}) {
   const rows = [];
   let lastCategory = null;
+  const theme = useContext(ThemeContext);
+
 
   for(let product of products) {
     if(product.category !== lastCategory) {
@@ -132,17 +156,22 @@ function ProductTable({products}) {
     }
     rows.push(<ProductRow key={product.name} product={product} />);
   }
-  return <table className="table">
-    <thead>
-      <tr>
-        <th>Name</th>
-        <th>Price</th>
+  return (
+    <div>
+      <table className="table">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Price</th>
       </tr>
     </thead>
     <tbody>
       {rows}
     </tbody>
-  </table>;
+  </table>
+  <button>{theme.theme}</button>
+  </div>
+  );
 }
 
 function Title() {
@@ -181,6 +210,7 @@ function Title() {
   );
   
 }
+
 
 
 
