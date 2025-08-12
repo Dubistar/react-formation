@@ -4,6 +4,7 @@ import {router} from './App.jsx'
 import { ThemeContextProvider } from './hooks/useTheme.jsx'
 import { RouterProvider } from 'react-router-dom'
 import { ToastContextProvider } from './components/toast/ToastContext.jsx'
+import { ConfirmContextProvider } from './components/modal/ConfirmContext.jsx'
 
 // CSS global pour les toasts - à ajouter au début
 const globalToastStyles = `
@@ -52,10 +53,12 @@ console.log('DOM root element:', document.getElementById('root'));
 createRoot(document.getElementById('root')).render(
     <ToastContextProvider>
         <StrictMode>
+          <ConfirmContextProvider>
              <ThemeContextProvider> 
                 {/* The ThemeContextProvider wraps the App to provide theme context */}
                 <RouterProvider router={router} />
              </ThemeContextProvider> 
+          </ConfirmContextProvider>
         </StrictMode>
     </ToastContextProvider>
 )

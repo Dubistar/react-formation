@@ -4,6 +4,7 @@ import Home from "./pages/Home.jsx";
 import ExternalStore from "./pages/ExternalStore.jsx";
 import FramerMotion from "./pages/FramerMotion.jsx";
 import Toast from "./pages/ToastPage.jsx";
+import Modal from "./pages/ModalPage.jsx";
 
 
 const router = createBrowserRouter([
@@ -26,6 +27,10 @@ const router = createBrowserRouter([
       {
         path: "Toast",
         element: <Toast />,
+      },
+      {
+        path: "Modal",
+        element: <Modal />,
       }
     ]
   },  
@@ -42,6 +47,7 @@ function Root() {
           <li><Link to="/externalStore">External Store</Link></li>
           <li><Link to="/framer-motion">Framer Motion</Link></li>
           <li><Link to="/Toast">Toast</Link></li>
+          <li><Link to="/Modal">Modal</Link></li>
         </ul>     
       </nav>
     </header>
