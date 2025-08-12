@@ -3,6 +3,7 @@ import { createBrowserRouter, Link, Outlet } from "react-router-dom";
 import Home from "./pages/Home.jsx";
 import ExternalStore from "./pages/ExternalStore.jsx";
 import FramerMotion from "./pages/FramerMotion.jsx";
+import Toast from "./pages/ToastPage.jsx";
 
 
 const router = createBrowserRouter([
@@ -21,6 +22,10 @@ const router = createBrowserRouter([
       {
         path: "framer-motion",
         element: <FramerMotion />,
+      },
+      {
+        path: "Toast",
+        element: <Toast />,
       }
     ]
   },  
@@ -36,6 +41,7 @@ function Root() {
           <li><Link to="/">Home</Link></li>
           <li><Link to="/externalStore">External Store</Link></li>
           <li><Link to="/framer-motion">Framer Motion</Link></li>
+          <li><Link to="/Toast">Toast</Link></li>
         </ul>     
       </nav>
     </header>
